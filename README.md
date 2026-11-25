@@ -31,3 +31,16 @@ Click the monitors, diploma, corkboard, bookshelf, or cat. Drag to orbit within 
 - `App.jsx`: scene, camera controls, lighting, and HUD
 
 Static hosting output: `dist/`.
+
+## Deploy on Render
+
+Create a **Static Site** linked to `https://github.com/okimsz/Portfolio`:
+
+- Branch: `main`
+- Root directory: leave blank
+- Build command: `npm ci && npm run build`
+- Publish directory: `dist`
+
+Alternatively, create a Render Blueprint from this repository; `render.yaml` includes the static hosting configuration. No environment variables or backend service are required.
+
+Verified in headless Chrome at 1440×1000 and 390×844: WebGL rendering, monitor raycasting and hover tooltip, cat tip cycling, all five panels, dialog focus and Escape, night mode, and mobile overflow. Production build passes. Three.js produces a large-bundle advisory (about 319 KB gzip for the application bundle).
