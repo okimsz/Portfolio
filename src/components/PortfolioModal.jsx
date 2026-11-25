@@ -1,10 +1,65 @@
-import {useEffect,useRef} from 'react';
-import {X, Github,ExternalLink,Download,Mail,Linkedin,Code2,Layers,Cpu} from 'lucide-react';
-import {profile,projects,sections} from '../data';
-export default function PortfolioModal({section,onClose}){const ref=useRef();useEffect(()=>{const previous=document.activeElement;ref.current?.focus();function key(e){if(e.key==='Escape')onClose();if(e.key==='Tab'){const items=ref.current.querySelectorAll('button,a[href]');const first=items[0],last=items[items.length-1];if(e.shiftKey&&(document.activeElement===first||document.activeElement===ref.current)){e.preventDefault();last?.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus()}}}document.addEventListener('keydown',key);return()=>{document.removeEventListener('keydown',key);previous?.focus()}},[section,onClose]);if(!section)return null;const info=sections[section];return <div className="modal-backdrop" onClick={onClose}><section ref={ref} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="panel-title" className="portfolio-panel" onClick={e=>e.stopPropagation()}><button className="close-button icon-button" aria-label="Close panel" onClick={onClose}><X size={21}/></button><p className="eyebrow">{info.eyebrow}</p><h2 id="panel-title">{info.title}</h2><p className="panel-intro">{info.description}</p>
-{section==='projects'&&<div className="project-list">{projects.map((p,i)=><article className="project-card" key={p.title}><div className={'project-art '+p.color}>{i===0?<Layers size={43}/>:i===1?<Cpu size={43}/>:<Code2 size={43}/>}<span>{p.type}</span></div><div className="project-copy"><h3>{p.title}</h3><p className="project-subtitle">{p.subtitle}</p><p>{p.description}</p><div className="tags">{p.tags.map(t=><span key={t}>{t}</span>)}</div><div className="project-links"><a href={`https://example.com/project-${i+1}`} target="_blank" rel="noreferrer"><ExternalLink size={15}/> Demo placeholder</a><a href={`https://github.com/your-username/project-${i+1}`} target="_blank" rel="noreferrer"><Github size={15}/> GitHub placeholder</a></div></div></article>)}</div>}
-{section==='about'&&<><div className="about-card"><span className="avatar">YN<span>✦</span></span><div><h3>{profile.name}</h3><p>{profile.role}</p></div></div><div className="prose"><p>Hello! I’m [Your Name], a curious developer who loves turning ideas into useful, approachable experiences. My interests sit at the intersection of software, hardware, and thoughtful design.</p><p>This little room is a reflection of how I like to work: a bit of focus, a bit of play, and plenty of room to experiment. Away from the keyboard, you’ll find me [your hobbies and interests].</p></div><div className="note-card">Currently exploring <strong>Creative coding & connected devices</strong></div><a className="primary-button" href="/resume.txt" download><Download size={17}/> Download sample résumé</a></>}
-{section==='education'&&<div className="timeline"><article><span className="timeline-mark">✦</span><p className="eyebrow">[YEAR] — [YEAR]</p><h3>[Bachelor’s Degree in Computer Engineering]</h3><p>[University Name] · [City, Country]</p><p>A foundation in software engineering, digital systems, electronics, and solving meaningful problems.</p></article><article><span className="timeline-mark">✧</span><p className="eyebrow">HONORS & AWARDS</p><h3>[Dean’s List]</h3><p>[Add semesters, academic honors, or competition achievements here.]</p></article><article><span className="timeline-mark">✓</span><p className="eyebrow">ALWAYS LEARNING</p><h3>[Professional Certification]</h3><p>[Issuing organization] · [Year]</p><div className="tags"><span>[Certification 1]</span><span>[Certification 2]</span></div></article></div>}
-{section==='skills'&&<><div className="skill-groups">{Object.entries({'Frontend':['React','JavaScript','Three.js','Tailwind CSS'],'Backend & data':['Node.js','Python','SQL','REST APIs'],'Hardware & tools':['C++','Verilog','Git','Linux']}).map(([name,tags])=><div key={name}><h3>{name}</h3><div className="tags">{tags.map(t=><span key={t}>{t}</span>)}</div></div>)}</div><h3 className="experience-title">Experience so far</h3><div className="timeline"><article><span className="timeline-mark">⌘</span><p className="eyebrow">[START DATE] — [END DATE]</p><h3>[Software Engineering Intern]</h3><p>[Company Name]</p><p>[Describe your contribution, the technologies you used, and the impact of your work.]</p></article><article><span className="timeline-mark">⌘</span><p className="eyebrow">ONGOING</p><h3>Personal projects & exploration</h3><p>[Share your independent work, open-source contributions, or collaborative projects.]</p></article></div></>}
-{section==='contact'&&<><div className="contact-illustration">☺<span>Good things start with a hello.</span></div><a className="primary-button" href={`mailto:${profile.email}`}><Mail size={18}/> {profile.email}</a><div className="social-links"><a href={profile.github} target="_blank" rel="noreferrer"><Github size={19}/> GitHub</a><a href={profile.linkedin} target="_blank" rel="noreferrer"><Linkedin size={19}/> LinkedIn</a></div></>}
-<p className="placeholder-note">Sample portfolio content · Replace with your own details and links.</p></section></div>}
+import { useEffect, useRef } from 'react';
+import { X, Github, ExternalLink, Download, Mail, Phone, MapPin, Code2, Layers, Cpu } from 'lucide-react';
+import { profile, projects, sections, education, skillGroups, experience } from '../data';
+
+export default function PortfolioModal({ section, onClose }) {
+  const ref = useRef();
+  useEffect(() => {
+    const previous = document.activeElement;
+    ref.current?.focus();
+    function key(e) {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'Tab') {
+        const items = ref.current.querySelectorAll('button,a[href]');
+        const first = items[0], last = items[items.length - 1];
+        if (e.shiftKey && (document.activeElement === first || document.activeElement === ref.current)) { e.preventDefault(); last?.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first?.focus(); }
+      }
+    }
+    document.addEventListener('keydown', key);
+    return () => { document.removeEventListener('keydown', key); previous?.focus(); };
+  }, [section, onClose]);
+  if (!section) return null;
+  const info = sections[section];
+  return <div className="modal-backdrop" onClick={onClose}>
+    <section ref={ref} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="panel-title" className="portfolio-panel" onClick={e => e.stopPropagation()}>
+      <button className="close-button icon-button" aria-label="Close panel" onClick={onClose}><X size={21} /></button>
+      <p className="eyebrow">{info.eyebrow}</p><h2 id="panel-title">{info.title}</h2><p className="panel-intro">{info.description}</p>
+      {section === 'projects' && <div className="project-list">{projects.map((p, i) => <article className="project-card" key={p.title}>
+        <div className={'project-art ' + p.color}>{i === 0 ? <Layers size={43} /> : i === 1 ? <Cpu size={43} /> : <Code2 size={43} />}<span>{p.type}</span></div>
+        <div className="project-copy"><h3>{p.title}</h3><p className="project-subtitle">{p.subtitle}</p><p className="project-dates">{p.dates}</p><p>{p.description}</p>
+          <div className="tags">{p.tags.map(t => <span key={t}>{t}</span>)}</div>
+          <div className="project-links">
+            {p.demo && <a href={p.demo} target="_blank" rel="noreferrer"><ExternalLink size={15} /> Live demo</a>}
+            {p.github && <a href={p.github} target="_blank" rel="noreferrer"><Github size={15} /> Source code</a>}
+            <a href={`mailto:${profile.email}?subject=${encodeURIComponent('Tell me about ' + p.title)}`}><Mail size={15} /> Ask about this project</a>
+          </div>
+        </div>
+      </article>)}</div>}
+      {section === 'about' && <>
+        <div className="about-card"><span className="avatar">{profile.initials}<span>✦</span></span><div><h3>{profile.name}</h3><p>{profile.role}</p></div></div>
+        <div className="prose">{profile.bio.map(p => <p key={p}>{p}</p>)}</div>
+        <div className="note-card">Based in <strong>{profile.location}</strong></div>
+        <a className="primary-button" href={profile.resume} download><Download size={17} /> Download résumé</a>
+      </>}
+      {section === 'education' && <div className="timeline">
+        <article><span className="timeline-mark">✦</span><p className="eyebrow">{education.date}</p><h3>{education.degree}</h3><p>{education.school}</p><p>{education.location}</p></article>
+        <article><span className="timeline-mark">✧</span><p className="eyebrow">ACADEMIC HONORS</p>{education.honors.map(honor => <p key={honor} className="honor-item">{honor}</p>)}</article>
+      </div>}
+      {section === 'skills' && <>
+        <div className="skill-groups">{Object.entries(skillGroups).map(([name, tags]) => <div key={name}><h3>{name}</h3><div className="tags">{tags.map(t => <span key={t}>{t}</span>)}</div></div>)}</div>
+        <h3 className="experience-title">Experience so far</h3>
+        <div className="timeline">{experience.map(job => <article key={job.company}>
+          <span className="timeline-mark">⌘</span><p className="eyebrow">{job.dates}</p><h3>{job.title}</h3><p className="company-name">{job.company}</p>
+          {job.details.map(detail => <p key={detail}>{detail}</p>)}
+        </article>)}</div>
+      </>}
+      {section === 'contact' && <>
+        <div className="contact-illustration">☺<span>Good things start with a hello.</span></div>
+        <a className="primary-button" href={`mailto:${profile.email}`}><Mail size={18} /> {profile.email}</a>
+        <div className="social-links"><a href={profile.github} target="_blank" rel="noreferrer"><Github size={19} /> GitHub</a><a href={`tel:${profile.telephone}`}><Phone size={18} /> {profile.phone}</a></div>
+        <p className="contact-location"><MapPin size={16} />{profile.location}</p>
+      </>}
+    </section>
+  </div>;
+}

@@ -12,6 +12,8 @@ const send=(method,params={})=>new Promise((resolve,reject)=>{const n=++id;pendi
 const evaluate=async expression=>(await send('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true})).result.value;
 await send('Runtime.enable');await send('Page.enable');await send('Emulation.setDeviceMetricsOverride',{width:1440,height:1000,deviceScaleFactor:1,mobile:false});await send('Page.navigate',{url:'http://127.0.0.1:4173'});await delay(7000);
 console.log('Initial',await evaluate(`({canvas:!!document.querySelector('canvas'),fallback:!!document.querySelector('.scene-fallback'),title:document.title})`));
+const resumeResponse=await fetch('http://127.0.0.1:4173/Mico-Alano-Resume.pdf');
+if(!resumeResponse.ok||!Buffer.from(await resumeResponse.arrayBuffer()).subarray(0,5).equals(Buffer.from('%PDF-')))throw Error('Resume download is not a PDF');
 for(let i=0;i<30&&!await evaluate(`!!document.querySelector('canvas')`);i++)await delay(1000);
 if(!await evaluate(`!!document.querySelector('canvas')`)){console.log('Errors',errors,'Page',await evaluate(`document.body.innerText`));throw Error('3D canvas did not load')}
 await writeFile('qa-desktop.png',Buffer.from((await send('Page.captureScreenshot',{format:'png'})).data,'base64'));

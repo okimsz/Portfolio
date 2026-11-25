@@ -1,4 +1,4 @@
-# My Little Corner
+# Mico S. Alano — My Little Corner
 
 A responsive, procedural 3D room portfolio built with React, Three.js, React Three Fiber, Drei, Tailwind CSS, and Vite. No external models, textures, fonts, or image assets are required.
 
@@ -13,10 +13,10 @@ Run `npm run build` for a production build and `npm run preview` to preview it.
 
 ## Personalize
 
-- Edit `src/data.js` for name, role, projects, and social links.
-- Edit `src/components/PortfolioModal.jsx` for education, biography, and experience.
-- Replace `public/resume.txt` with your real resume (and update the download link if using PDF).
-- Project demo and repository URLs are explicitly marked placeholders. Replace them before sharing as a personal portfolio.
+- Edit `src/data.js` for profile, projects, education, honors, skills, experience, and contact details.
+- The downloadable résumé is `public/Mico-Alano-Resume.pdf`.
+- Add optional `demo` and `github` URLs to project entries when available. Until then, each card offers a project-specific email inquiry.
+- Portfolio content is based on Mico's supplied résumé; the corporate application is identified as internship work.
 
 ## Explore
 
