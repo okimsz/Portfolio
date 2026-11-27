@@ -1,12 +1,14 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useContext } from 'react';
+import { MotionContext } from '../motion';
 import { useFrame } from '@react-three/fiber';
 import { Box, Cylinder } from './Primitives';
 import InteractiveObject from './InteractiveObject';
 
 function MiniFridge() {
+  const reduced=useContext(MotionContext);
   const door = useRef();
   const [hover, setHover] = useState(false);
-  useFrame((_, dt) => { door.current.rotation.y += ((hover ? -.65 : 0) - door.current.rotation.y) * (1 - Math.exp(-7 * dt)); });
+  useFrame((_, dt) => { door.current.rotation.y += ((hover ? -.65 : 0) - door.current.rotation.y) * (reduced ? 1 : 1 - Math.exp(-7 * dt)); });
   return <group onPointerOver={() => setHover(true)} onPointerOut={() => setHover(false)}>
     <Box position={[0,.27,0]} size={[.35,.54,.3]} color="#83a69c" />
     <Box position={[0,.28,.157]} size={[.3,.47,.015]} color="#e8e7d8" />

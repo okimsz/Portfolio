@@ -1,10 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { X, Github, ExternalLink, Download, Mail, Phone, MapPin, Code2, Layers, Cpu } from 'lucide-react';
-import { profile, projects, sections, education, skillGroups, experience, xinyxPhotos } from '../data';
+import { profile, projects, sections, education, skillGroups, experience, xinyxPhotos, projectStories } from '../data';
+import {GuardianPanel,ChipPanel,ScrapbookPanel} from './EngineeringPanels';
 import PlaygroundPanel from './PlaygroundPanel';
 import PhotoGallery from './PhotoGallery';
 
-export default function PortfolioModal({ section, onClose, initialProject }) {
+export default function PortfolioModal({ section, onClose, initialProject, onSelect }) {
   const ref = useRef();
   useEffect(() => {
     const previous = document.activeElement;
@@ -28,10 +29,14 @@ export default function PortfolioModal({ section, onClose, initialProject }) {
       <button className="close-button icon-button" aria-label="Close panel" onClick={onClose}><X size={21} /></button>
       <p className="eyebrow">{info.eyebrow}</p><h2 id="panel-title">{info.title}</h2><p className="panel-intro">{info.description}</p>
       {section === 'playground' && <PlaygroundPanel initialProject={initialProject} />}
+      {section === 'guardian' && <GuardianPanel/>}
+      {section === 'chip' && <ChipPanel/>}
+      {section === 'scrapbook' && <ScrapbookPanel/>}
       {section === 'projects' && <div className="project-list">{projects.map((p, i) => <article className="project-card" key={p.title}>
         <div className={'project-art ' + p.color}>{i === 0 ? <Layers size={43} /> : i === 1 ? <Cpu size={43} /> : <Code2 size={43} />}<span>{p.type}</span></div>
         <div className="project-copy"><h3>{p.title}</h3><p className="project-subtitle">{p.subtitle}</p><p className="project-dates">{p.dates}</p><p>{p.description}</p>
           <div className="tags">{p.tags.map(t => <span key={t}>{t}</span>)}</div>
+          {projectStories[p.title] && <details className="project-story"><summary>The engineering story</summary><dl>{[['problem','The problem'],['contribution','My contribution'],['tradeoff','Engineering tradeoff'],['challenge','My biggest learning curve'],['try','Explore further']].map(([key,label])=>projectStories[p.title][key]&&<div key={key}><dt>{label}</dt><dd>{projectStories[p.title][key]}</dd></div>)}</dl>{projectStories[p.title].section&&<button className="primary-button" onClick={()=>onSelect(projectStories[p.title].section)}>Open interactive exhibit</button>}</details>}
           {p.photos && <PhotoGallery photos={p.photos} />}
           <div className="project-links">
             {p.demo && <a href={p.demo} target="_blank" rel="noreferrer"><ExternalLink size={15} /> Live demo</a>}

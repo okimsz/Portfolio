@@ -20,6 +20,19 @@ Run `npm run build` for a production build and `npm run preview` to preview it.
 
 ## Explore
 
+### Living Engineering Lab
+
+- **Lab Mode** adds teal circuit traces, wireframe overlays, and annotations while keeping the room's warm lighting.
+- **Smart collar** opens an explicitly illustrative Meow Guardian demo with camera, GPS, and motion states. It does not access a camera, location, or live device.
+- **Inside the chip** walks through an original schematic/layout/DRC-LVS illustration and links the experience to Xinyx training. No company layout is reproduced.
+- **Scrapbook** opens the Xinyx photo collection; the graduation portrait is also displayed in the 3D wall frame.
+- Each featured project has an expandable engineering story. The Xinyx learning-curve account reflects Mico's supplied explanation; other entries describe documented work and engineering tradeoffs without inventing metrics or personal challenges.
+- **60-second tours** offer Software, Hardware, and full-room routes with camera focus, pause/resume, back/next, skip, and links into exhibits. Opening an exhibit exits the tour. Switching away from the page pauses it.
+- **Reduce motion** respects the OS preference and can be toggled in the header. It stops cat motion, removes camera interpolation and hover easing, and makes tours manual.
+- All exhibits are also available through keyboard-accessible buttons beneath the room.
+
+For the current browser regression check, start `npm run preview`, then run `node qa-lab.mjs` (uses the locally installed Windows Chrome). It covers new exhibit controls, story links, timed/manual tours, OS motion preference, and 390px/320px layouts. `qa.mjs` checks the original room and Playground interactions.
+
 The **Playground** navigation button and the three miniature models on the front-right project shelf open the Engineering Playground. Choose Hearth (refrigerator), Shelter (roof insulation), or Solaris (solar water heating), then launch the actual Render demo in a new tab. Each experiment includes a captured application preview, a guided prompt, and its GitHub source link. Demo metadata lives in `playground` in `src/data.js`; preview images are stored in `public/previews/`.
 
 Click the monitors, diploma, corkboard, bookshelf, or cat. Drag to orbit within the room's front-facing limits, scroll/pinch to zoom, and use Reset view to return home. The cat cycles tips and jumps when clicked; enable audio for a synthesized meow. Day/night mode changes lighting. Bottom navigation provides keyboard access to all portfolio content. Dialogs support Escape, focus trapping, and focus restoration. If WebGL fails, navigation remains available.
