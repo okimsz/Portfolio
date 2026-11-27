@@ -1,6 +1,7 @@
 import {Box,Ball,Cylinder,Plant} from './Primitives';
 import InteractiveObject from './InteractiveObject';
 import CatMascot from './CatMascot';
+import ProjectShelf from './ProjectShelf';
 function Screen({position,night}){return <group position={position}><Box size={[1.45,.85,.09]} color='#353d3d'/><mesh position={[0,0,.051]}><planeGeometry args={[1.33,.73]}/><meshStandardMaterial color='#244449' emissive='#609997' emissiveIntensity={night?.65:.25}/></mesh><Box position={[0,-.53,0]} size={[.08,.25,.08]} color='#414846'/><Box position={[0,-.65,.08]} size={[.48,.035,.28]} color='#414846'/>{Array.from({length:7},(_,i)=><Box key={i} position={[-.2+(i%2)*.08,.23-i*.065,.06]} size={[.55+(i%3)*.1,.014,.005]} color={['#8fbba7','#d8b18b','#789aa4'][i%3]}/>)}<Box position={[-.51,0,.06]} size={[.12,.6,.005]} color='#304e53'/></group>}
 export default function Room({night,onSelect,sound}){return <group position={[0,-.2,0]}>
 <Box position={[0,-.15,0]} size={[6.8,.3,5.8]} color='#a27451'/>{Array.from({length:17},(_,i)=><Box key={i} position={[-3.2+i*.4,.015,0]} size={[.39,.04,5.65]} color={['#c79e75','#d2ae85','#caa17a','#d4b18a'][i%4]}/>)}
@@ -15,6 +16,6 @@ export default function Room({night,onSelect,sound}){return <group position={[0,
 {/* Beanbag */}<group position={[-2.05,.1,1.55]}><Ball position={[0,.28,0]} scale={[.67,.36,.63]} color='#c58a60'/><Ball position={[-.18,.55,-.2]} scale={[.47,.5,.42]} color='#c58a60'/><Ball position={[.04,.47,.15]} scale={[.42,.1,.35]} color='#d09a71'/></group>
 {/* Media console */}<group position={[2.55,0,-.3]} rotation={[0,Math.PI/2,0]}><Box position={[0,.42,0]} size={[1.8,.7,.6]} color='#b78961'/><Box position={[0,.44,.31]} size={[1.55,.42,.02]} color='#72563d'/><Box position={[0,.44,.34]} size={[.07,.48,.05]} color='#ba8b5f'/><Box position={[-.42,.37,.34]} size={[.5,.16,.12]} color='#dedac9'/><Box position={[.44,.44,.34]} size={[.18,.36,.12]} color='#3c4843'/><Box position={[0,1.27,-.02]} size={[1.55,.88,.08]} color='#3e4943'/><Box position={[0,1.27,.03]} size={[1.42,.75,.02]} color={night?'#6d8590':'#8ca8a2'}/><Ball position={[.34,1.4,.05]} scale={[.15,.15,.015]} color='#e6ce94'/><Box position={[0,.81,0]} size={[.45,.06,.28]} color='#404940'/><Plant position={[.7,.78,0]} scale={.45}/></group>
 {/* Acoustic guitar */}<group position={[2.48,.62,-2.18]} rotation={[0,-.35,-.14]}><Ball scale={[.3,.37,.1]} color='#bb7c42'/><Ball position={[0,.28,0]} scale={[.23,.26,.1]} color='#bb7c42'/><Cylinder position={[0,.18,.105]} args={[.09,.09,.015,24]} rotation={[Math.PI/2,0,0]} color='#4e3b29'/><Box position={[0,.71,0]} size={[.09,.75,.07]} color='#6d4c32'/><Box position={[0,1.13,0]} size={[.15,.24,.08]} color='#9d6a3e'/>{[-.025,0,.025].map(x=><Box key={x} position={[x,.44,.12]} size={[.003,1.1,.003]} color='#dfd1ad'/>)}</group>
-<Plant position={[-2.8,.05,-2.2]} scale={1.45}/><CatMascot onContact={()=>onSelect('contact')} sound={sound}/>
+<ProjectShelf onSelect={onSelect}/><Plant position={[-2.8,.05,-2.2]} scale={1.45}/><CatMascot onContact={()=>onSelect('contact')} sound={sound}/>
 </group>}
 

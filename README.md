@@ -20,6 +20,8 @@ Run `npm run build` for a production build and `npm run preview` to preview it.
 
 ## Explore
 
+The **Playground** navigation button and the three miniature models on the front-right project shelf open the Engineering Playground. Choose Hearth (refrigerator), Shelter (roof insulation), or Solaris (solar water heating), then launch the actual Render demo in a new tab. Each experiment includes a captured application preview, a guided prompt, and its GitHub source link. Demo metadata lives in `playground` in `src/data.js`; preview images are stored in `public/previews/`.
+
 Click the monitors, diploma, corkboard, bookshelf, or cat. Drag to orbit within the room's front-facing limits, scroll/pinch to zoom, and use Reset view to return home. The cat cycles tips and jumps when clicked; enable audio for a synthesized meow. Day/night mode changes lighting. Bottom navigation provides keyboard access to all portfolio content. Dialogs support Escape, focus trapping, and focus restoration. If WebGL fails, navigation remains available.
 
 ## Structure

@@ -18,6 +18,14 @@ for(let i=0;i<30&&!await evaluate(`!!document.querySelector('canvas')`);i++)awai
 if(!await evaluate(`!!document.querySelector('canvas')`)){console.log('Errors',errors,'Page',await evaluate(`document.body.innerText`));throw Error('3D canvas did not load')}
 await writeFile('qa-desktop.png',Buffer.from((await send('Page.captureScreenshot',{format:'png'})).data,'base64'));
 if(!await evaluate(`!!document.querySelector('.cat-bubble')`))throw Error('Cat bubble missing');
+for(const [name,x,y] of [['Hearth',960,655],['Shelter',992,638],['Solaris',1027,625]]){
+  await send('Input.dispatchMouseEvent',{type:'mouseMoved',x,y});await delay(200);
+  await send('Input.dispatchMouseEvent',{type:'mousePressed',x,y,button:'left',clickCount:1});await send('Input.dispatchMouseEvent',{type:'mouseReleased',x,y,button:'left',clickCount:1});await delay(200);
+  const selected=await evaluate(`document.querySelector('.experiment-picker button[aria-pressed=true] strong')?.textContent`);
+  if(selected!==name)throw Error('Shelf raycast failed: '+name+' got '+selected);
+  console.log('Shelf click',name);
+  await evaluate(`document.querySelector('.close-button').click()`);await delay(2200);
+}
 await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:920,y:355});await delay(400);
 console.log('3D hover',await evaluate(`document.querySelector('.object-tooltip')?.textContent`));
 await send('Input.dispatchMouseEvent',{type:'mousePressed',x:920,y:355,button:'left',clickCount:1});await send('Input.dispatchMouseEvent',{type:'mouseReleased',x:920,y:355,button:'left',clickCount:1});await delay(300);
@@ -28,6 +36,17 @@ console.log('Cat fact after click',await evaluate(`document.querySelector('.cat-
 for(const label of ['Projects','Achievements','Skills','About me','Contact']){await evaluate(`Array.from(document.querySelectorAll('nav button')).find(x=>x.textContent==='${label}').click()`);await delay(200);console.log('Panel',label,await evaluate(`({title:document.querySelector('[role=dialog] h2')?.textContent,focusInside:document.querySelector('[role=dialog]')?.contains(document.activeElement)})`));await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Escape',code:'Escape'});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Escape',code:'Escape'});if(await evaluate(`!!document.querySelector('[role=dialog]')`))throw Error('Escape failed')}
 await evaluate(`document.querySelector('.theme-button').click()`);await delay(1500);console.log('Night',await evaluate(`document.querySelector('main').classList.contains('night')`));await writeFile('qa-night.png',Buffer.from((await send('Page.captureScreenshot',{format:'png'})).data,'base64'));
 await evaluate(`document.querySelector('.theme-button').click()`);await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await delay(1500);await writeFile('qa-mobile.png',Buffer.from((await send('Page.captureScreenshot',{format:'png'})).data,'base64'));console.log('Mobile',await evaluate(`({overflow:document.documentElement.scrollWidth>innerWidth,navButtons:document.querySelectorAll('nav button').length})`));console.log('Runtime errors',errors);if(errors.length)process.exitCode=1;
+await evaluate(`Array.from(document.querySelectorAll('nav button')).find(x=>x.textContent==='Playground').click()`);await delay(400);
+for(const [name,url] of [['Hearth','https://refrigerator-1.onrender.com'],['Shelter','https://roof-panels.onrender.com'],['Solaris','https://solar-water-heater.onrender.com']]){
+  await evaluate(`Array.from(document.querySelectorAll('.experiment-picker button')).find(x=>x.textContent.includes('${name}')).click()`);await delay(200);
+  const link=await evaluate(`({url:document.querySelector('.experiment-copy .primary-button').getAttribute('href'),target:document.querySelector('.experiment-copy .primary-button').target,imageLoaded:document.querySelector('.experiment-preview img').naturalWidth>0,overflow:document.querySelector('[role=dialog]').scrollWidth>document.querySelector('[role=dialog]').clientWidth})`);
+  if(link.url!==url||link.target!=='_blank'||!link.imageLoaded||link.overflow)throw Error('Playground card failed: '+JSON.stringify(link));
+  console.log('Playground',name,link);
+}
+await writeFile('qa-playground-mobile.png',Buffer.from((await send('Page.captureScreenshot',{format:'png'})).data,'base64'));
+await send('Emulation.setDeviceMetricsOverride',{width:1440,height:1000,deviceScaleFactor:1,mobile:false});await delay(1000);
+await writeFile('qa-playground-desktop.png',Buffer.from((await send('Page.captureScreenshot',{format:'png'})).data,'base64'));
+if(errors.length)throw Error('Runtime errors: '+errors.join('; '));
 await send('Browser.close');
 }finally{ws?.close();browser.kill()}
 
