@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { X, Github, ExternalLink, Download, Mail, Phone, MapPin, Code2, Layers, Cpu } from 'lucide-react';
-import { profile, projects, sections, education, skillGroups, experience } from '../data';
+import { profile, projects, sections, education, skillGroups, experience, xinyxPhotos } from '../data';
 import PlaygroundPanel from './PlaygroundPanel';
+import PhotoGallery from './PhotoGallery';
 
 export default function PortfolioModal({ section, onClose, initialProject }) {
   const ref = useRef();
@@ -31,6 +32,7 @@ export default function PortfolioModal({ section, onClose, initialProject }) {
         <div className={'project-art ' + p.color}>{i === 0 ? <Layers size={43} /> : i === 1 ? <Cpu size={43} /> : <Code2 size={43} />}<span>{p.type}</span></div>
         <div className="project-copy"><h3>{p.title}</h3><p className="project-subtitle">{p.subtitle}</p><p className="project-dates">{p.dates}</p><p>{p.description}</p>
           <div className="tags">{p.tags.map(t => <span key={t}>{t}</span>)}</div>
+          {p.photos && <PhotoGallery photos={p.photos} />}
           <div className="project-links">
             {p.demo && <a href={p.demo} target="_blank" rel="noreferrer"><ExternalLink size={15} /> Live demo</a>}
             {p.github && <a href={p.github} target="_blank" rel="noreferrer"><Github size={15} /> Source code</a>}
@@ -39,13 +41,14 @@ export default function PortfolioModal({ section, onClose, initialProject }) {
         </div>
       </article>)}</div>}
       {section === 'about' && <>
+        <figure className="graduation-portrait"><a href="/photos/mico-graduation.jpg" target="_blank" rel="noopener noreferrer" aria-label="Open Mico's graduation portrait"><img src="/photos/mico-graduation.jpg" alt="Mico S. Alano in his graduation gown" width="1385" height="1600" /></a><figcaption>A little ambition. A lot of curiosity.</figcaption></figure>
         <div className="about-card"><span className="avatar">{profile.initials}<span>✦</span></span><div><h3>{profile.name}</h3><p>{profile.role}</p></div></div>
         <div className="prose">{profile.bio.map(p => <p key={p}>{p}</p>)}</div>
         <div className="note-card">Based in <strong>{profile.location}</strong></div>
         <a className="primary-button" href={profile.resume} download><Download size={17} /> Download résumé</a>
       </>}
       {section === 'education' && <div className="timeline">
-        <article><span className="timeline-mark">✦</span><p className="eyebrow">{education.date}</p><h3>{education.degree}</h3><p>{education.school}</p><p>{education.location}</p></article>
+        <article><span className="timeline-mark">✦</span><p className="eyebrow">{education.date}</p><h3>{education.degree}</h3><p>{education.school}</p><p>{education.location}</p><img className="education-portrait" src="/photos/mico-graduation.jpg" alt="Mico's graduation portrait" width="1385" height="1600" loading="lazy" /></article>
         <article><span className="timeline-mark">✧</span><p className="eyebrow">ACADEMIC HONORS</p>{education.honors.map(honor => <p key={honor} className="honor-item">{honor}</p>)}</article>
       </div>}
       {section === 'skills' && <>
@@ -54,6 +57,7 @@ export default function PortfolioModal({ section, onClose, initialProject }) {
         <div className="timeline">{experience.map(job => <article key={job.company}>
           <span className="timeline-mark">⌘</span><p className="eyebrow">{job.dates}</p><h3>{job.title}</h3><p className="company-name">{job.company}</p>
           {job.details.map(detail => <p key={detail}>{detail}</p>)}
+          {job.company === 'LABS by Xinyx' && <PhotoGallery photos={xinyxPhotos} compact />}
         </article>)}</div>
       </>}
       {section === 'contact' && <>
