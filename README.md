@@ -23,7 +23,7 @@ Run `npm run build` for a production build and `npm run preview` to preview it.
 ### Living Engineering Lab
 
 - **Lab Mode** adds teal circuit traces, wireframe overlays, and annotations while keeping the room's warm lighting.
-- **Smart collar** opens an explicitly illustrative Meow Guardian demo with camera, GPS, and motion states. It does not access a camera, location, or live device.
+- **Smart collar** opens the WoofGuardian dog-collar exhibit: a step-by-step food detection/local LED/cloud/app alert walkthrough, simulated Wi-Fi loss, outdoor geofencing, and IMU wake-on-motion states. It does not access a camera, location, or live device. The calico cat remains a room mascot, not the intended animal for the prototype.
 - **Inside the chip** walks through an original schematic/layout/DRC-LVS illustration and links the experience to Xinyx training. No company layout is reproduced.
 - **Scrapbook** opens the Xinyx photo collection; the graduation portrait is also displayed in the 3D wall frame.
 - Each featured project has an expandable engineering story. The Xinyx learning-curve account reflects Mico's supplied explanation; other entries describe documented work and engineering tradeoffs without inventing metrics or personal challenges.
@@ -46,6 +46,20 @@ Click the monitors, diploma, corkboard, bookshelf, or cat. Drag to orbit within 
 - `App.jsx`: scene, camera controls, lighting, and HUD
 
 Static hosting output: `dist/`.
+
+## WoofGuardian source notes
+
+The supplied capstone manuscript and user manual are reference sources, not published downloads. The documented title and FOMO implementation supersede the older project name and YOLOv11 subtitle from the initial résumé. Personal contribution wording retains the résumé's model, hardware, wiring, and CAD responsibilities; the complete system is credited to the three-person capstone team.
+
+- Scope, architecture, and limitations: manuscript p. 18, pp. 47–49, and pp. 96–100; manual PDF pp. 5–6 and 10–16.
+- Held-out test accuracy 94.98% and F1 0.96: manuscript Table 9, p. 71. These are reported study results, not a blanket real-world accuracy guarantee.
+- Profiled inference 221 ms / approximately 4.52 FPS: Table 10, p. 73.
+- Connected alert test: Table 14, p. 82, reports 1.48 s food-alert and 1.75 s geofence-alert latency. Its 233 ms local inference entry is kept distinct from the 221 ms hardware profile.
+- The 44.44-hour battery figure is theoretical: manuscript p. 78 assumes a 2000 mAh battery, 25% active duty at 150 mA, and 75% sleep duty at 10 mA. It is not measured continuous-active runtime.
+- The app's React Native/Firebase architecture is a team-system feature, not a newly inferred individual responsibility.
+- No class-by-class accuracy is published here: the manuscript's garlic validation table and its narrative disagree. The portfolio uses the explicitly labeled held-out test metrics instead.
+
+Run `node qa-guardian.mjs` against `npm run preview` for the renamed project, alert-sequence transitions, disconnected Wi-Fi behavior, geofence/motion examples, and desktop/mobile layout checks.
 
 ## Deploy on Render
 

@@ -16,11 +16,11 @@ const assert=async(expr,message)=>{if(!await evaluate(expr))throw Error(message)
 const shot=async name=>writeFile('qa-lab-'+name+'.png',Buffer.from((await send('Page.captureScreenshot',{format:'png'})).data,'base64'));
 await assert(`!!document.querySelector('canvas')&&!document.querySelector('.scene-fallback')`,'3D did not load');
 await click('.lab-toggle');await delay(500);await assert(`document.querySelectorAll('.lab-annotation').length===3`,'Lab annotations missing');await shot('desktop');
-for(const [title,x,y] of [['Inside the chip',1053,441],['Notes from Xinyx',874,366],['Meet Meow Guardian',850,570]]){
+for(const [title,x,y] of [['Inside the chip',1053,441],['Notes from Xinyx',874,366],['Meet WoofGuardian',850,570]]){
 await send('Input.dispatchMouseEvent',{type:'mousePressed',x,y,button:'left',clickCount:1});await send('Input.dispatchMouseEvent',{type:'mouseReleased',x,y,button:'left',clickCount:1});await delay(200);
 await assert(`document.querySelector('#panel-title')?.textContent===${JSON.stringify(title)}`,'3D exhibit click failed: '+title);await click('.close-button');await delay(2000);
 }
-for(const [i,title] of [[0,'Meet Meow Guardian'],[1,'Inside the chip'],[2,'Notes from Xinyx']]){
+for(const [i,title] of [[0,'Meet WoofGuardian'],[1,'Inside the chip'],[2,'Notes from Xinyx']]){
 await click(`.exhibit-shortcuts button:nth-child(${i+1})`);await delay(300);await assert(`document.querySelector('#panel-title').textContent===${JSON.stringify(title)}`,'Wrong exhibit');
 if(i<2){for(let n=1;n<=3;n++){await click(`.sensor-tabs button:nth-child(${n})`);await assert(`document.querySelector('.sensor-tabs button:nth-child(${n})').getAttribute('aria-pressed')==='true'`,'Stage switch failed');if(i===0){await click('.portfolio-panel .primary-button');await assert(`document.querySelector('.sensor-stage').classList.contains('triggered')`,'Sensor state failed')}}}
 await shot('exhibit-'+i);await click('.close-button');}

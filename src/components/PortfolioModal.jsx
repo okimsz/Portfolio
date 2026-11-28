@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { X, Github, ExternalLink, Download, Mail, Phone, MapPin, Code2, Layers, Cpu } from 'lucide-react';
 import { profile, projects, sections, education, skillGroups, experience, xinyxPhotos, projectStories } from '../data';
-import {GuardianPanel,ChipPanel,ScrapbookPanel} from './EngineeringPanels';
+import {ChipPanel,ScrapbookPanel} from './EngineeringPanels';
+import GuardianPanel from './GuardianPanel';
 import PlaygroundPanel from './PlaygroundPanel';
 import PhotoGallery from './PhotoGallery';
 
